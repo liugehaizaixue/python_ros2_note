@@ -74,3 +74,15 @@ create_timer() 是Node类的一个方法，用于创建一个定时器。
 当回调函数callback()被调用时，它会执行一些操作（如打印消息）后，创建一个新的定时器self.timer。定时器将以1秒的时间间隔周期性地触发，并调用回调函数self.delayed_action。这个定时器是在每个回调函数中动态地创建的，所以每个回调函数都有自己独立的定时器实例。  
 
 `一旦回调函数执行完毕，定时器就会被释放。`这是因为定时器的生命周期与回调函数的生命周期绑定在一起：它们是在同一个作用域内定义的并且没有被存储为类成员变量。一旦回调函数完成执行，定时器不再被引用，它的相关资源将被自动释放。  
+
+### ros2_sub_coroutines_in_callback
+`在回调函数中使用协程`  
+[ros2_sub_coroutines_in_callback](./ros2_sub_coroutines_in_callback.py)  
+ROS 2中，协程需要与事件循环一起使用才能正常工作。  
+在上述代码中，我们在MyNode类的构造函数中获取了事件循环（loop = asyncio.get_event_loop()）。然后，在回调函数中，我们创建了一个任务（task = self.loop.create_task(self.my_coroutine())），并将其添加到事件循环中（self.loop.run_until_complete(task)）。这样，协程的逻辑代码就能在正确的上下文中运行了。  
+
+请确保在主程序中调用run_until_complete()方法来启动事件循环，并且确保协程使用了await关键字来等待异步操作完成。  
+
+- 获取事件循环：在ROS 2中，可以通过asyncio.get_event_loop()方法来获取事件循环对象。事件循环负责调度和执行各种协程任务。  
+- 创建协程函数：定义一个async修饰符下的协程函数，可以使用async def语法来声明。在协程函数中，我们可以编写异步逻辑代码。例如，在示例中的my_coroutine函数中，我们使用了await asyncio.sleep(1)来模拟耗时操作。  
+- 创建任务并添加到事件循环：在回调函数中，我们可以使用事件循环的create_task方法创建一个任务，并将协程函数作为参数传递给它。然后，使用run_until_complete方法运行事件循环，直到任务完成。  
