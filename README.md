@@ -78,6 +78,7 @@ create_timer() 是Node类的一个方法，用于创建一个定时器。
 ### ros2_sub_coroutines_in_callback
 `在回调函数中使用协程`  
 [ros2_sub_coroutines_in_callback](./ros2_sub_coroutines_in_callback.py)  
+[ros2_sub_coroutines_in_callback_2](./ros2_sub_coroutines_in_callback_2.py)  
 ROS 2中，协程需要与事件循环一起使用才能正常工作。  
 在上述代码中，我们在MyNode类的构造函数中获取了事件循环（loop = asyncio.get_event_loop()）。然后，在回调函数中，我们创建了一个任务（task = self.loop.create_task(self.my_coroutine())），并将其添加到事件循环中（self.loop.run_until_complete(task)）。这样，协程的逻辑代码就能在正确的上下文中运行了。  
 
