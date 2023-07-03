@@ -87,3 +87,9 @@ ROS 2中，协程需要与事件循环一起使用才能正常工作。
 - 获取事件循环：在ROS 2中，可以通过asyncio.get_event_loop()方法来获取事件循环对象。事件循环负责调度和执行各种协程任务。  
 - 创建协程函数：定义一个async修饰符下的协程函数，可以使用async def语法来声明。在协程函数中，我们可以编写异步逻辑代码。例如，在示例中的my_coroutine函数中，我们使用了await asyncio.sleep(1)来模拟耗时操作。  
 - 创建任务并添加到事件循环：在回调函数中，我们可以使用事件循环的create_task方法创建一个任务，并将协程函数作为参数传递给它。然后，使用run_until_complete方法运行事件循环，直到任务完成。  
+
+### ros2_sub_Reentrant_coroutines_in_cb  
+[ros2_sub_Reentrant_coroutines_in_cb](./ros2_sub_Reentrant_coroutines_in_cb.py)  
+`结合由于某个回调中使用协程时可能存在延迟操作，此时该回调函数会阻塞该回调函数的队列（仅指该回调函数），此处利用可重入实现每个回调的并发。`    
+效果如下图所示：  
+![ros2_sub_Reentrant_coroutines_in_cb](./assets/ros2_sub_Reentrant_coroutines_in_cb.png)  
