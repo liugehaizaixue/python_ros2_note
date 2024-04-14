@@ -1,4 +1,4 @@
-# python_study  
+# ROS2 异步机制
 
 ## pub  
 ros2 基础的pub节点  
